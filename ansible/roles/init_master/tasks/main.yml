@@ -1,0 +1,22 @@
+---
+
+- name: kubeadm init
+  raw: kubeadm init --pod-network-cidr=10.244.0.0/16 --token={{ kubeadm_token }} --apiserver-advertise-address={{ groups['master'][0] }}
+  become: yes
+
+- name: ubuntu user config copy
+  raw: mkdir -p /home/ubuntu/.kube; cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config; chown ubuntu:ubuntu /home/ubuntu/.kube/config
+  become: yes
+
+- name: install pod network (1/2)
+  raw: kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/rbac.yaml
+
+- name: install pod network (2/2)
+  raw: kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/canal.yaml
+
+- name: get discovery-token-ca-cert-hash
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  register: discovery_token_ca_cert_hash
+
+- name: save discovery-token-ca-cert-hash
+  local_action: copy content={{ discovery_token_ca_cert_hash.stdout }} dest=./var/discovery_token_ca_cert_hash

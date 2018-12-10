@@ -1,0 +1,30 @@
+---
+- name: install and configure kubernetes master
+  hosts: master
+  remote_user: ubuntu
+  vars:
+   - ansible_python_interpreter: /usr/bin/python3
+   - kubeadm_token: abcdef.0123456789abcdef
+   - docker_version: 18.06.0~ce~3-0~ubuntu
+  pre_tasks:
+   - name: apt update
+     apt: update_cache=yes
+     become: yes
+   - name: apt upgrade
+     apt: upgrade=dist
+     become: yes
+#  pre_tasks:
+#    - name: upgrade system
+#      apt:
+#        upgrade: yes
+#        update_cache: yes
+#        cache_valid_time: 86400
+#      become: yes
+  roles:
+    - install_docker
+    - install_kube
+    - init_master
+
+  tasks:
+    - name: deploy local docker registry
+      raw: docker run -d -p 5000:5000 --restart=always --name registry registry:2

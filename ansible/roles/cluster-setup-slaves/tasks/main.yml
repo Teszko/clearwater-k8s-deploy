@@ -1,0 +1,28 @@
+---
+# tasks file for cluster-setup-slaves
+
+- template:
+    src: ../files/daemon.json
+    dest: /etc/docker/daemon.json
+  become: yes
+
+- name: restart docker unit
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
+  become: yes
+
+#- name: pull-images
+#  raw: crictl pull kubemaster.local:5000/clearwater/{{ item }}
+#  with_items:
+#    - astaire
+#    - bono
+#    - chronos
+#    - ellis
+#    - homer
+#    - homestead
+#    - homestead-prov
+#    - ralf
+#    - sprout
+#  become: yes

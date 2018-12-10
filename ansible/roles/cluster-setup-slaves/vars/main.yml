@@ -1,0 +1,3 @@
+---
+# vars file for cluster-setup-slaves
+registry_hostname: kubemaster.local

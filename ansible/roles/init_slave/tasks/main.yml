@@ -1,0 +1,7 @@
+---
+- debug:
+    msg: "kubeadm join --token {{ kubeadm_token }} {{ master_ip }}:{{ kubeadm_join_port }}     --discovery-token-ca-cert-hash sha256:{{ discovery_token_ca_cert_hash }}"
+
+- name: join cluster
+  raw: kubeadm join --token {{ kubeadm_token }} {{ master_ip }}:{{ kubeadm_join_port }} --discovery-token-ca-cert-hash sha256:{{ discovery_token_ca_cert_hash }}
+  become: yes

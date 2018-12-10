@@ -1,0 +1,39 @@
+---
+- name: kubernetes setup of general tools
+  hosts: master
+  remote_user: ubuntu
+  gather_facts: no
+  vars:
+   - ansible_python_interpreter: /usr/bin/python3
+  roles:
+#    - cluster-setup
+
+- name: kubernetes setup of slaves
+  hosts: slaves
+  gather_facts: no
+  remote_user: ubuntu
+  vars:
+   - registry_hostname: kubemaster.local
+   - ansible_python_interpreter: /usr/bin/python3
+  roles:
+#    - cluster-setup-slaves
+
+- name: kubernetes setup of clearwater
+  hosts: master
+  gather_facts: no
+  remote_user: ubuntu
+  vars:
+   - ansible_python_interpreter: /usr/bin/python3
+  roles:
+#    - deploy-clearwater
+
+- name: install ingest proxy for cluster
+  hosts: ingest
+  gather_facts: no
+  remote_user: ubuntu
+  vars:
+   - ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - cluster-ingest
+
+

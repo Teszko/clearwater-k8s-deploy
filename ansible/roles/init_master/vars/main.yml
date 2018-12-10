@@ -1,0 +1,4 @@
+---
+# vars file for init_master
+
+kubeadm_token: abcdef.0123456789abcdef

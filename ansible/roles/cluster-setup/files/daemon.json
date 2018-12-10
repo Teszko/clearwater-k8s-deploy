@@ -1,0 +1,5 @@
+{
+"insecure-registries": [
+"kubemaster.local:5000"
+]
+}

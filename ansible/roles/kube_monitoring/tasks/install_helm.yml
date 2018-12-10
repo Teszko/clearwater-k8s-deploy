@@ -1,0 +1,26 @@
+---
+- name: create resource directory for storing kubernetes yaml configs
+  file: path={{ resources_dir }} state=directory
+
+- name: install helm
+  raw: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+
+- copy:
+  src: {{ role_path }}/files/tillerClusterRole.yaml
+  dest: {{ resources_dir }}/
+
+- name: kubectl create tiller cluster role
+  raw: kubectl create -f {{ resources_dir }}/tillerClusterRole.yaml
+
+- name: kubectl create tiller service account
+  raw: kubectl create sa tiller -n kube-system
+
+- copy:
+  src: {{ role_path }}/files/tillerClusterRoleBinding.yaml
+  dest: {{ resources_dir }}/
+
+- name: kubectl create cluster role binding
+  raw: kubectl create -f {{ resources_dir }}/tillerClusterRoleBinding.yaml
+
+- name: initialize helm
+  raw: helm init --service-account tiller

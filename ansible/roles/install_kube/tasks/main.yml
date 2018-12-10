@@ -1,0 +1,37 @@
+---
+# tasks file for master
+
+- name: install apt-transport-https
+  apt: name=apt-transport-https state=latest
+  become: yes
+
+- name: install curl
+  apt: name=curl state=latest
+  become: yes
+
+- name: get apt key
+  raw: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  become: yes
+
+- name: add kubernetes repository
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes.list
+  become: yes
+
+- name: install kubelet
+  apt: name=kubelet state=latest
+  become: yes
+
+- name: install kubeadm
+  apt: name=kubeadm state=latest
+  become: yes
+
+- name: install kubectl
+  apt: name=kubectl state=latest
+  become: yes
+
+- name: hold packages
+  raw: apt-mark hold kubelet kubeadm kubectl
+  become: yes

@@ -1,0 +1,35 @@
+---
+# tasks file for deploy-clearwater
+
+#- name: template docker daemon config
+#  template:
+#    src: ../templates/daemon.json.j2
+#    dest: /etc/docker/daemon.json
+#    owner: root
+#    group: root
+#    mode: 0644
+#  become: yes
+#
+#- name: restart docker
+#  systemd:
+#    name: docker
+#    state: restarted
+#    daemon_reload: yes
+#  become: yes
+
+#- name: disable ipv6
+#  raw: echo "net.ipv6.conf.all.disable_ipv6 = 0" > /etc/sysctl.d/disable-ipv6.conf; echo "net.ipv6.conf.lo.disable_ipv6 = 0" >> /etc/sysctl.d/disable-ipv6.conf; sysctl -p
+#  become: yes
+
+
+- name: clone clearwater-docker repository
+  git:
+    repo: https://github.com/Teszko/clearwater-docker.git
+    dest: /home/ubuntu/clearwater-docker
+    recursive: yes
+
+- name: build docker images
+  raw: cd /home/ubuntu/clearwater-docker/; ./build-and-push-containers.sh
+
+- name: deploy clearwater
+  raw: kubectl create -f /home/ubuntu/clearwater-docker/kubernetes/

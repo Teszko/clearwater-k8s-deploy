@@ -1,0 +1,7 @@
+---
+- template:
+    src: ../files/weavescope_ns_default.yaml
+    dest: /home/ubuntu/weavescope.yaml
+
+- name: deploy weavescope to kubernetes
+  raw: kubectl create -f /home/ubuntu/weavescope.yaml

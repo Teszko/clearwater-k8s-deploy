@@ -1,0 +1,9 @@
+
+# 1) adjust the entries in hosts.cfg
+# 2) run the install_master playbook
+ansible-playbook -i hosts.cfg install_master.yml
+
+# 3) after initializing the master node, wait for it to become ready. check with  ´kubectl get nodes´ on the master.
+
+# 4) run the install_slaves playbook
+ansible-playbook -i hosts.cfg install_slaves.yml

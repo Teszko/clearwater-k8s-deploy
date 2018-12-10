@@ -1,0 +1,11 @@
+---
+- template:
+    src: ../files/daemon.json
+    dest: /etc/docker/daeomon.json
+
+- name: restart docker unit
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
+
