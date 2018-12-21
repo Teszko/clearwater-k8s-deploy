@@ -34,8 +34,8 @@ ansible-playbook -i hosts.cfg populate_cluster.yml
 This will deploy weavecope and clearwater to the kubernetes cluster.
 If successful, you should be able to reach weavescope and Ellis from any node in the cluster. 
 
-weavescope: http://<some node ip>:30840  
-ellis: http://<some node ip>:30080  
+weavescope: `http://<some node ip>:30840`  
+ellis: `http://<some node ip>:30080`  
 
 Ellis can take some time to generate phone numbers after initialization. You may have to wait a minute. 
 Create an account using the signup code "secret".
