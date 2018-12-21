@@ -3,7 +3,6 @@
 
 This project contains Ansible playbooks for deploying a Kubernetes cluster
 and then installing Clearwater IMS to that Cluster.
-The Clearwater deployment uses a fork of the Metaswitch project https://github.com/Teszko/clearwater-docker
 
 ## Instructions
 
@@ -32,6 +31,7 @@ ansible-playbook -i hosts.cfg populate_cluster.yml
 ```
 
 This will deploy weavecope and clearwater to the kubernetes cluster.
+The Clearwater deployment uses a fork of the Metaswitch project https://github.com/Teszko/clearwater-docker
 If successful, you should be able to reach weavescope and Ellis from any node in the cluster. 
 
 weavescope: `http://<some node ip>:30840`  
