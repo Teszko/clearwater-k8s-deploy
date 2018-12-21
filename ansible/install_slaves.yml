@@ -10,15 +10,14 @@
     - master_ip: "{{ groups['master'][0] }}"
     - kubeadm_token: abcdef.0123456789abcdef
     - docker_version: 18.06.0~ce~3-0~ubuntu
-#  pre_tasks:
-#   - name: apt update
-#     apt: update_cache=yes
-#     become: yes
-#   - name: apt upgrade
-#     apt: upgrade=dist
-#     become: yes
+  pre_tasks:
+   - name: apt update
+     apt: update_cache=yes
+     become: yes
+   - name: apt upgrade
+     apt: upgrade=dist
+     become: yes
   roles:
-#    - install_docker
-#    - install_kube
-#    - init_slave
-    - deploy-clearwater
+    - install_docker
+    - install_kube
+    - init_slave
