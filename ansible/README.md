@@ -3,7 +3,7 @@
 
 This project contains Ansible playbooks for deploying a Kubernetes cluster
 and then installing Clearwater IMS to that Cluster.
-The Clearwater deployment uses a fork of the Metaswitch project ![clearwater-docker](https://github.com/Teszko/clearwater-docker)
+The Clearwater deployment uses a fork of the Metaswitch project https://github.com/Teszko/clearwater-docker
 
 ## Instructions
 
