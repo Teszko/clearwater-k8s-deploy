@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpdrunner2
+spec:
+  clusterIP: "10.105.32.223"
+  ports:
+  - name: "80"
+    port: 80
+  selector:
+    service: httpdrunner2
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: httpdrunner2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: httpdrunner2
+  template:
+    metadata:
+      labels:
+        service: httpdrunner2
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: "kubeslave-2"
+      containers:
+      - image: "httpd:2.4"
+        imagePullPolicy: Always
+        name: httpdrunner2
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpdrunner3
+spec:
+  clusterIP: "10.105.32.224"
+  ports:
+  - name: "80"
+    port: 80
+  selector:
+    service: httpdrunner3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: httpdrunner3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: httpdrunner3
+  template:
+    metadata:
+      labels:
+        service: httpdrunner3
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: "kubeslave-3"
+      containers:
+      - image: "httpd:2.4"
+        imagePullPolicy: Always
+        name: httpdrunner3
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iperf
+spec:
+  clusterIP: "10.105.32.226"
+  ports:
+  - name: "5201"
+    port: 5201
+  selector:
+    service: iperf
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: iperf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: iperf
+  template:
+    metadata:
+      labels:
+        service: iperf
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: "kubeslave-4"
+      containers:
+      - image: "networkstatic/iperf3"
+        args: ["-s"]
+        imagePullPolicy: Always
+        name: iperf
+        ports:
+        - containerPort: 5201
+      restartPolicy: Always
